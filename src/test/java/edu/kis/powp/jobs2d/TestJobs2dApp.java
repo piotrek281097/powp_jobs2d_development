@@ -1,6 +1,6 @@
 package edu.kis.powp.jobs2d;
 
-import java.awt.EventQueue;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,6 +65,13 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
+		DriverFeature.updateDriverInfo();
+
+		CustomizableLine ourBeutifulLine = new CustomizableLine();
+		ourBeutifulLine.setColor(Color.MAGENTA);
+
+		driver = new LineDriverAdapter(drawerController, ourBeutifulLine, "customizable");
+		DriverFeature.addDriver("Beautiful Customizable Line", driver);
 		DriverFeature.updateDriverInfo();
 	}
 
