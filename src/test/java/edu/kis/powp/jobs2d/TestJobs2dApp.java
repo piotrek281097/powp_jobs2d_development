@@ -2,6 +2,10 @@ package edu.kis.powp.jobs2d;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,15 +23,18 @@ import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 
+import javax.swing.*;
+
 public class TestJobs2dApp {
-	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private final   Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private CustomizableLine ourBeautifulLine = new CustomizableLine();
 
 	/**
 	 * Setup test concerning preset figures in context.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
-	private static void setupPresetTests(Application application) {
+	private   void setupPresetTests(Application application) {
 		SelectTestFigureOptionListener selectTestFigureOptionListener = new SelectTestFigureOptionListener(
 				DriverFeature.getDriverManager());
 		SelectTestFigure2OptionListener selectTestFigure2OptionListener = new SelectTestFigure2OptionListener(
@@ -39,10 +46,10 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup test using driver commands in context.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
-	private static void setupCommandTests(Application application) {
+	private   void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
@@ -51,10 +58,10 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup driver manager, and set default Job2dDriver for application.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
-	private static void setupDrivers(Application application) {
+	private   void setupDrivers(Application application) {
 		Job2dDriver loggerDriver = new LoggerDriver();
 		DriverFeature.addDriver("Logger driver", loggerDriver);
 
@@ -67,18 +74,43 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Special line Simulator", driver);
 		DriverFeature.updateDriverInfo();
 
-		CustomizableLine ourBeutifulLine = new CustomizableLine();
-		ourBeutifulLine.setColor(Color.MAGENTA);
-
-		driver = new LineDriverAdapter(drawerController, ourBeutifulLine, "customizable");
+		driver = new LineDriverAdapter(drawerController, ourBeautifulLine, "customizable");
 		DriverFeature.addDriver("Beautiful Customizable Line", driver);
 		DriverFeature.updateDriverInfo();
 	}
 
-	private static void setupWindows(Application application) {
+	private   void setupWindows(Application application) {
 
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
+
+		JFrame frame = new JFrame("h3h3h3");
+		frame.show();
+		frame.setSize(new Dimension(600, 100));
+
+        Map<String, Color> ourPreferrableColors = new HashMap<>();
+//        String[] names = {"Magenta", "Orange", "Pink", "Blue"};
+//        Color[] colors = {Color.MAGENTA, Color.ORANGE, Color.PINK, Color.BLUE};
+        ourPreferrableColors.put("Magenta", Color.MAGENTA);
+        ourPreferrableColors.put("Orange", Color.ORANGE);
+        ourPreferrableColors.put("Pink", Color.PINK);
+        ourPreferrableColors.put("Blue", Color.BLUE);
+
+        JComboBox colorList = new JComboBox(ourPreferrableColors.keySet().stream().toArray()/*names*/);
+		colorList.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent itemEvent) {
+//				Color pickedColor = (Color) itemEvent.getItem();
+//                ourBeautifulLine.setColor(pickedColor);
+                ourBeautifulLine.setColor(ourPreferrableColors.get(itemEvent.getItem()));
+			}
+		});
+
+		ourBeautifulLine.setColor(ourPreferrableColors.get(colorList.getSelectedItem()));
+
+		frame.add(colorList);
+
+		application.addJFrameWindow("hehehe", frame);
 
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
@@ -87,10 +119,10 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup menu for adjusting logging settings.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
-	private static void setupLogger(Application application) {
+	private   void setupLogger(Application application) {
 
 		application.addComponentMenu(Logger.class, "Logger", 0);
 		application.addComponentMenuElement(Logger.class, "Clear log",
@@ -107,7 +139,7 @@ public class TestJobs2dApp {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				Application app = new Application("Jobs 2D");
