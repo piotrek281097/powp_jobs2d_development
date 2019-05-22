@@ -18,14 +18,13 @@ public class Job2dDriverTest {
 	 */
 	public static void main(String[] args) {
 		ResourceClassSingleton resourceClassSingleton = ResourceClassSingleton.getInstance();
-		System.out.println(resourceClassSingleton.getInk());
 		FiguresJoe.figureScript1(driver);
 //		ResourcesClass resourcesClass = new ResourcesClass(1000, 1000);
 //		resourcesClass.decrementInk(0, 0, 1, 1);
 //		resourcesClass.decrementUsage(0, 0, 1, 1);
 //		System.out.println(resourcesClass.getInk());
 //		System.out.println(resourcesClass.getUsage());
-		System.out.println(resourceClassSingleton.getInk());
+
 	}
 
 	private static class StubDriver implements Job2dDriver {

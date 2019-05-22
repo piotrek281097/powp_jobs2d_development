@@ -18,6 +18,7 @@ public class SelectTestFigureOptionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		FiguresJoe.figureScript1(driverManager.getCurrentDriver());
-		System.out.println(ResourceClassSingleton.getInstance().getInk());
+		System.out.println("ink: " + ResourceClassSingleton.getInstance().getInk());
+		System.out.println("usage: " + ResourceClassSingleton.getInstance().getUsage());
 	}
 }

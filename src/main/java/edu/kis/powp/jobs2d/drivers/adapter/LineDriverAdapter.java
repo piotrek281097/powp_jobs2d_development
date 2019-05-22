@@ -24,9 +24,10 @@ public class LineDriverAdapter implements Job2dDriver {
 
 	@Override
 	public void setPosition(int x, int y) {
-		ResourceClassSingleton.getInstance().decrementInk(this.startX, this.startY, x, y );
-		this.startX = x;
-		this.startY = y;
+		if(ResourceClassSingleton.getInstance().decrementUsage(this.startX, this.startY, x, y )) {
+			this.startX = x;
+			this.startY = y;
+		}
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public class ResourceClassSingleton {
     }
 
     private double ink = 10000;
-    private double usage = 1000;
+    private double usage = 10000;
     private boolean isDotted = false;
 
     private ResourceClassSingleton() {
@@ -27,7 +27,7 @@ public class ResourceClassSingleton {
 
         double distance = startingPoint.distance(endingPoint);
         if(ink - distance < 0) {
-            System.out.println("Nie mozna rysowac");
+            System.out.println("Nie mozna rysowac brak ink");
             return false;
         }
         this.ink -= distance;
@@ -35,13 +35,19 @@ public class ResourceClassSingleton {
         //        System.out.println(distance);
     }
 
-    public void decrementUsage(int startPosX, int startPosY, int endPosX, int endPosY) {
+    public boolean decrementUsage(int startPosX, int startPosY, int endPosX, int endPosY) {
         Point startingPoint = new Point(startPosX, startPosY);
         Point endingPoint = new Point(endPosX, endPosY);
 
         double distance = startingPoint.distance(endingPoint);
+
+        if(usage - distance < 0) {
+            System.out.println("Nie mozna rysowac brak uasge");
+            return false;
+        }
         this.usage -= distance;
         //        System.out.println(distance);
+        return true;
     }
 
     public double getInk() {
