@@ -1,6 +1,7 @@
 package edu.kis.powp.jobs2d.command;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
+import edu.kis.powp.jobs2d.resources.ResourceClassSingleton;
 
 /**
  * Implementation of Job2dDriverCommand for operateTo command functionality.
@@ -11,6 +12,7 @@ public class OperateToCommand implements DriverCommand {
 
 	public OperateToCommand(int posX, int posY) {
 		super();
+//		ResourceClassSingleton.getInstance().decrementInk(this.posX, this.posY, posX, posY );
 		this.posX = posX;
 		this.posY = posY;
 	}

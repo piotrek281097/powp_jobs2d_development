@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.magicpresets.FiguresJoe;
+import edu.kis.powp.jobs2d.resources.ResourceClassSingleton;
 
 public class SelectTestFigureOptionListener implements ActionListener {
 
@@ -17,5 +18,6 @@ public class SelectTestFigureOptionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		FiguresJoe.figureScript1(driverManager.getCurrentDriver());
+		System.out.println(ResourceClassSingleton.getInstance().getInk());
 	}
 }
