@@ -1,6 +1,6 @@
 package edu.kis.powp.jobs2d.resources;
 
-import java.awt.*;
+import java.awt.Point;
 
 public class ResourceClassSingleton {
 
@@ -12,13 +12,8 @@ public class ResourceClassSingleton {
 
     private double ink = 10000;
     private double usage = 10000;
-    private boolean isDotted = false;
 
     private ResourceClassSingleton() {
-    }
-
-    public void setDotted(boolean dotted) {
-        isDotted = dotted;
     }
 
     public boolean decrementInk(int startPosX, int startPosY, int endPosX, int endPosY) {
@@ -26,13 +21,12 @@ public class ResourceClassSingleton {
         Point endingPoint = new Point(endPosX, endPosY);
 
         double distance = startingPoint.distance(endingPoint);
-        if(ink - distance < 0) {
+        if (ink - distance < 0) {
             System.out.println("Nie mozna rysowac brak ink");
             return false;
         }
         this.ink -= distance;
         return true;
-        //        System.out.println(distance);
     }
 
     public boolean decrementUsage(int startPosX, int startPosY, int endPosX, int endPosY) {
@@ -41,12 +35,11 @@ public class ResourceClassSingleton {
 
         double distance = startingPoint.distance(endingPoint);
 
-        if(usage - distance < 0) {
+        if (usage - distance < 0) {
             System.out.println("Nie mozna rysowac brak uasge");
             return false;
         }
         this.usage -= distance;
-        //        System.out.println(distance);
         return true;
     }
 

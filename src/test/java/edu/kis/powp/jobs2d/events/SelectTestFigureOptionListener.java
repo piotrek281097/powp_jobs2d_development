@@ -22,7 +22,5 @@ public class SelectTestFigureOptionListener implements ActionListener {
 		TestJobs2dApp testJobs2dApp = new TestJobs2dApp();
 		testJobs2dApp.getLogger().info("Remaining ink: " + ResourceClassSingleton.getInstance().getInk());
 		testJobs2dApp.getLogger().info("Remaining usage: " + ResourceClassSingleton.getInstance().getUsage());
-//		System.out.println("ink: " + ResourceClassSingleton.getInstance().getInk());
-//		System.out.println("usage: " + ResourceClassSingleton.getInstance().getUsage());
 	}
 }

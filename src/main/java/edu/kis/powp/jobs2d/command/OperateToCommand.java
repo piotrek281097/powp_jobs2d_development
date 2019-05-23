@@ -12,7 +12,6 @@ public class OperateToCommand implements DriverCommand {
 
 	public OperateToCommand(int posX, int posY) {
 		super();
-//		ResourceClassSingleton.getInstance().decrementInk(this.posX, this.posY, posX, posY );
 		this.posX = posX;
 		this.posY = posY;
 	}
