@@ -2,9 +2,12 @@ package edu.kis.powp.jobs2d;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +27,8 @@ import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class TestJobs2dApp {
 	private final   Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -84,31 +89,68 @@ public class TestJobs2dApp {
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
 
-		JFrame frame = new JFrame("h3h3h3");
+		JFrame frame = new JFrame("Customizable Line Options");
+		frame.setLayout(new GridLayout(4, 1));
 		frame.show();
-		frame.setSize(new Dimension(600, 100));
+		Dimension dimension = new Dimension(500, 250);
+		frame.setSize(dimension);
+		frame.setResizable(false);
 
-        Map<String, Color> ourPreferrableColors = new HashMap<>();
+        Map<String, Color> ourPrefferableColors = new HashMap<>();
 //        String[] names = {"Magenta", "Orange", "Pink", "Blue"};
 //        Color[] colors = {Color.MAGENTA, Color.ORANGE, Color.PINK, Color.BLUE};
-        ourPreferrableColors.put("Magenta", Color.MAGENTA);
-        ourPreferrableColors.put("Orange", Color.ORANGE);
-        ourPreferrableColors.put("Pink", Color.PINK);
-        ourPreferrableColors.put("Blue", Color.BLUE);
+        ourPrefferableColors.put("Magenta", Color.MAGENTA);
+        ourPrefferableColors.put("Orange", Color.ORANGE);
+        ourPrefferableColors.put("Pink", Color.PINK);
+        ourPrefferableColors.put("Blue", Color.BLUE);
 
-        JComboBox colorList = new JComboBox(ourPreferrableColors.keySet().stream().toArray()/*names*/);
+        JComboBox colorList = new JComboBox(ourPrefferableColors.keySet().stream().toArray()/*names*/);
 		colorList.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent itemEvent) {
 //				Color pickedColor = (Color) itemEvent.getItem();
 //                ourBeautifulLine.setColor(pickedColor);
-                ourBeautifulLine.setColor(ourPreferrableColors.get(itemEvent.getItem()));
+                ourBeautifulLine.setColor(ourPrefferableColors.get(itemEvent.getItem()));
 			}
 		});
 
-		ourBeautifulLine.setColor(ourPreferrableColors.get(colorList.getSelectedItem()));
+		JCheckBox dottedCheckBox = new JCheckBox();
+		dottedCheckBox.setText("Dotted");
+		dottedCheckBox.addActionListener(new ActionListener() {
 
+			@Override public void actionPerformed(ActionEvent e) {
+				if(dottedCheckBox.isEnabled()){
+					ourBeautifulLine.setDotted(true);
+				} else {
+					ourBeautifulLine.setDotted(false);
+				}
+			}
+		});
+
+		ourBeautifulLine.setColor(ourPrefferableColors.get(colorList.getSelectedItem()));
+
+
+		JSlider thicknessSlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 1);
+		thicknessSlider.setPaintLabels(true);
+		thicknessSlider.setPaintTicks(true);
+		thicknessSlider.setMajorTickSpacing(1);
+
+		thicknessSlider.addChangeListener(new ChangeListener() {
+
+			@Override public void stateChanged(ChangeEvent e) {
+
+				ourBeautifulLine.setThickness(thicknessSlider.getValue());
+
+			}
+		});
+
+		JLabel label = new JLabel();
+		label.setText("Thickness");
+
+		frame.add(label);
+		frame.add(thicknessSlider);
 		frame.add(colorList);
+		frame.add(dottedCheckBox);
 
 		application.addJFrameWindow("hehehe", frame);
 
