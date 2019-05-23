@@ -1,7 +1,6 @@
 package edu.kis.powp.jobs2d.command;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
-import edu.kis.powp.jobs2d.resources.ResourceClassSingleton;
 
 /**
  * Implementation of Job2dDriverCommand for operateTo command functionality.

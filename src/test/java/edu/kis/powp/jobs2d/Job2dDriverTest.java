@@ -1,7 +1,6 @@
 package edu.kis.powp.jobs2d;
 
 import edu.kis.powp.jobs2d.magicpresets.FiguresJoe;
-import edu.kis.powp.jobs2d.resources.ResourceClassSingleton;
 
 /**
  * Plotter test.
@@ -22,7 +21,6 @@ public class Job2dDriverTest {
 
 		@Override
 		public void operateTo(int x, int y) {
-			ResourceClassSingleton.getInstance().setInk(40);
 			System.out.println("Driver operateTo action...");
 		}
 
