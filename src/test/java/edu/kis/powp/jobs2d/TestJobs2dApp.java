@@ -20,6 +20,7 @@ import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.resources.ResourceClassSingleton;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -148,10 +149,27 @@ public class TestJobs2dApp {
 		application.addComponentMenuElement(Logger.class, "OFF logging", (ActionEvent e) -> logger.setLevel(Level.OFF));
 	}
 
+	public Logger getLogger() {
+		return logger;
+	}
+
+	private static void notifyAboutResources() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Current resources:");
+		stringBuilder.append("\nInk: " + ResourceClassSingleton.getInstance().getInk());
+		stringBuilder.append("\nUsage: " + ResourceClassSingleton.getInstance().getUsage());
+		logger.info(stringBuilder.toString());
+	}
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+
+		//TODO add loading resources from file and set them
+		ResourceClassSingleton.getInstance().setInk(15000);
+		ResourceClassSingleton.getInstance().setUsage(50000);
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				Application app = new Application("Jobs 2D");
@@ -166,6 +184,7 @@ public class TestJobs2dApp {
 				setupWindows(app);
 
 				app.setVisibility(true);
+				notifyAboutResources();
 			}
 		});
 	}
