@@ -2,12 +2,7 @@ package edu.kis.powp.jobs2d;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,15 +26,15 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class TestJobs2dApp {
-	private final   Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	private CustomizableLine ourBeautifulLine = new CustomizableLine();
+	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private static CustomizableLine ourBeautifulLine = new CustomizableLine();
 
 	/**
 	 * Setup test concerning preset figures in context.
 	 *
 	 * @param application Application context.
 	 */
-	private   void setupPresetTests(Application application) {
+	private static void setupPresetTests(Application application) {
 		SelectTestFigureOptionListener selectTestFigureOptionListener = new SelectTestFigureOptionListener(
 				DriverFeature.getDriverManager());
 		SelectTestFigure2OptionListener selectTestFigure2OptionListener = new SelectTestFigure2OptionListener(
@@ -54,7 +49,7 @@ public class TestJobs2dApp {
 	 *
 	 * @param application Application context.
 	 */
-	private   void setupCommandTests(Application application) {
+	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
@@ -66,7 +61,7 @@ public class TestJobs2dApp {
 	 *
 	 * @param application Application context.
 	 */
-	private   void setupDrivers(Application application) {
+	private static void setupDrivers(Application application) {
 		Job2dDriver loggerDriver = new LoggerDriver();
 		DriverFeature.addDriver("Logger driver", loggerDriver);
 
@@ -84,7 +79,7 @@ public class TestJobs2dApp {
 		DriverFeature.updateDriverInfo();
 	}
 
-	private   void setupWindows(Application application) {
+	private static void setupWindows(Application application) {
 
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
@@ -92,57 +87,31 @@ public class TestJobs2dApp {
 		JFrame frame = new JFrame("Customizable Line Options");
 		frame.setLayout(new GridLayout(4, 1));
 		frame.show();
-		Dimension dimension = new Dimension(500, 250);
+		Dimension dimension = new Dimension(550, 250);
 		frame.setSize(dimension);
 		frame.setResizable(false);
 
         Map<String, Color> ourPrefferableColors = new HashMap<>();
-//        String[] names = {"Magenta", "Orange", "Pink", "Blue"};
-//        Color[] colors = {Color.MAGENTA, Color.ORANGE, Color.PINK, Color.BLUE};
         ourPrefferableColors.put("Magenta", Color.MAGENTA);
         ourPrefferableColors.put("Orange", Color.ORANGE);
         ourPrefferableColors.put("Pink", Color.PINK);
         ourPrefferableColors.put("Blue", Color.BLUE);
 
-        JComboBox colorList = new JComboBox(ourPrefferableColors.keySet().stream().toArray()/*names*/);
-		colorList.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent itemEvent) {
-//				Color pickedColor = (Color) itemEvent.getItem();
-//                ourBeautifulLine.setColor(pickedColor);
-                ourBeautifulLine.setColor(ourPrefferableColors.get(itemEvent.getItem()));
-			}
-		});
+        JComboBox colorList = new JComboBox(ourPrefferableColors.keySet().stream().toArray());
+		colorList.addItemListener(itemEvent -> ourBeautifulLine.setColor(ourPrefferableColors.get(itemEvent.getItem())));
 
 		JCheckBox dottedCheckBox = new JCheckBox();
 		dottedCheckBox.setText("Dotted");
-		dottedCheckBox.addActionListener(new ActionListener() {
-
-			@Override public void actionPerformed(ActionEvent e) {
-				if(dottedCheckBox.isEnabled()){
-					ourBeautifulLine.setDotted(true);
-				} else {
-					ourBeautifulLine.setDotted(false);
-				}
-			}
-		});
+		dottedCheckBox.addActionListener(e -> ourBeautifulLine.setDotted(dottedCheckBox.isEnabled()));
 
 		ourBeautifulLine.setColor(ourPrefferableColors.get(colorList.getSelectedItem()));
-
 
 		JSlider thicknessSlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 1);
 		thicknessSlider.setPaintLabels(true);
 		thicknessSlider.setPaintTicks(true);
 		thicknessSlider.setMajorTickSpacing(1);
 
-		thicknessSlider.addChangeListener(new ChangeListener() {
-
-			@Override public void stateChanged(ChangeEvent e) {
-
-				ourBeautifulLine.setThickness(thicknessSlider.getValue());
-
-			}
-		});
+		thicknessSlider.addChangeListener(e -> ourBeautifulLine.setThickness(thicknessSlider.getValue()));
 
 		JLabel label = new JLabel();
 		label.setText("Thickness");
@@ -151,8 +120,9 @@ public class TestJobs2dApp {
 		frame.add(thicknessSlider);
 		frame.add(colorList);
 		frame.add(dottedCheckBox);
+		frame.move(900, 150);
 
-		application.addJFrameWindow("hehehe", frame);
+		application.addJFrameWindow("Customizable Line Options", frame);
 
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
@@ -164,7 +134,7 @@ public class TestJobs2dApp {
 	 *
 	 * @param application Application context.
 	 */
-	private   void setupLogger(Application application) {
+	private static void setupLogger(Application application) {
 
 		application.addComponentMenu(Logger.class, "Logger", 0);
 		application.addComponentMenuElement(Logger.class, "Clear log",
@@ -181,7 +151,7 @@ public class TestJobs2dApp {
 	/**
 	 * Launch the application.
 	 */
-	public void main(String[] args) {
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				Application app = new Application("Jobs 2D");
