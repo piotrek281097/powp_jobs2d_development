@@ -23,8 +23,6 @@ import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.resources.ResourceClassSingleton;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -92,11 +90,11 @@ public class TestJobs2dApp {
 		frame.setSize(dimension);
 		frame.setResizable(false);
 
-        Map<String, Color> ourPrefferableColors = new HashMap<>();
-        ourPrefferableColors.put("Magenta", Color.MAGENTA);
-        ourPrefferableColors.put("Orange", Color.ORANGE);
-        ourPrefferableColors.put("Pink", Color.PINK);
-        ourPrefferableColors.put("Blue", Color.BLUE);
+		Map<String, Color> ourPrefferableColors = new HashMap<>();
+		ourPrefferableColors.put("Magenta", Color.MAGENTA);
+		ourPrefferableColors.put("Orange", Color.ORANGE);
+		ourPrefferableColors.put("Pink", Color.PINK);
+		ourPrefferableColors.put("Blue", Color.BLUE);
 
         JComboBox colorList = new JComboBox(ourPrefferableColors.keySet().stream().toArray());
 		colorList.addItemListener(itemEvent -> ourBeautifulLine.setColor(ourPrefferableColors.get(itemEvent.getItem())));
