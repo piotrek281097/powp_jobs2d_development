@@ -18,6 +18,7 @@ public class SelectTestFigure2OptionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		ResourceClassSingleton.getInstance().changeStatusIsWindowOpenedUp();
 		FiguresJoe.figureScript2(driverManager.getCurrentDriver());
 		TestJobs2dApp testJobs2dApp = new TestJobs2dApp();
 		testJobs2dApp.getLogger().info("Remaining ink: " + ResourceClassSingleton.getInstance().getInk());

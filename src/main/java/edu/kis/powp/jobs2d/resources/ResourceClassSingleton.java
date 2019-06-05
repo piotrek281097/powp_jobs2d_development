@@ -16,6 +16,12 @@ public class ResourceClassSingleton {
 
     private double ink = 10000;
     private double usage = 10000;
+    private boolean isInk = true, isUsage = true;
+    private boolean isWindowPopedUp = false;
+
+    public void changeStatusIsWindowOpenedUp() {
+        isWindowPopedUp = false;
+    }
 
     private ResourceClassSingleton() {
         changePublisher.addSubscriber(new ResourcesUsageObserver());
@@ -26,23 +32,45 @@ public class ResourceClassSingleton {
         Point endingPoint = new Point(endPosX, endPosY);
 
         double distance = startingPoint.distance(endingPoint);
-        if (ink - distance < 0) {
-            System.out.println("Nie mozna rysowac brak ink");
+        if (isInk && isUsage) {
+            if (ink - distance < 0) {
+                isInk = false;
+                System.out.println("Nie mozna rysowac brak ink");
+                changePublisher.notifyObservers();
+                isWindowPopedUp = true;
+                return false;
+            }
+        } else if(!isWindowPopedUp) {
+            isWindowPopedUp = true;
             changePublisher.notifyObservers();
+            return false;
+        } else {
             return false;
         }
         this.ink -= distance;
         return true;
     }
 
-    public boolean decrementUsage(int startPosX, int startPosY, int endPosX, int endPosY) {
+    public boolean decrementUsage(int startPosX, int startPosY, int endPosX, int
+            endPosY) {
         Point startingPoint = new Point(startPosX, startPosY);
         Point endingPoint = new Point(endPosX, endPosY);
 
         double distance = startingPoint.distance(endingPoint);
 
-        if (usage - distance < 0) {
-            System.out.println("Nie mozna rysowac brak uasge");
+        if (isInk && isUsage) {
+            if (usage - distance < 0) {
+                isUsage = false;
+                System.out.println("Nie mozna rysowac brak uasge");
+                changePublisher.notifyObservers();
+                isWindowPopedUp = true;
+                return false;
+            }
+        } else if(!isWindowPopedUp) {
+            isWindowPopedUp = true;
+            changePublisher.notifyObservers();
+            return false;
+        } else {
             return false;
         }
         this.usage -= distance;
