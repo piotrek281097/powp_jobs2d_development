@@ -96,7 +96,7 @@ public class TestJobs2dApp {
 		ourPrefferableColors.put("Pink", Color.PINK);
 		ourPrefferableColors.put("Blue", Color.BLUE);
 
-        JComboBox colorList = new JComboBox(ourPrefferableColors.keySet().stream().toArray());
+		JComboBox colorList = new JComboBox(ourPrefferableColors.keySet().stream().toArray());
 		colorList.addItemListener(itemEvent -> ourBeautifulLine.setColor(ourPrefferableColors.get(itemEvent.getItem())));
 
 		JCheckBox dottedCheckBox = new JCheckBox();
