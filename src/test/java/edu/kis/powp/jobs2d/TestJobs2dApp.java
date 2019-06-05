@@ -116,8 +116,8 @@ public class TestJobs2dApp {
 	public static void main(String[] args) {
 
 		//TODO add loading resources from file and set them
-		ResourceClassSingleton.getInstance().setInk(15000);
-		ResourceClassSingleton.getInstance().setUsage(50000);
+		ResourceClassSingleton.getInstance().setInk(5000);
+		ResourceClassSingleton.getInstance().setUsage(15000);
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
