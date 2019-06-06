@@ -23,8 +23,13 @@ public class ResourceClassSingleton {
         isWindowPopedUp = false;
     }
 
+    public void changeResourcesStatus() {
+        isInk = true;
+        isUsage = true;
+    }
+
     private ResourceClassSingleton() {
-        changePublisher.addSubscriber(new ResourcesUsageObserver());
+        changePublisher.addSubscriber(new WarningUsageObserver());
     }
 
     public boolean decrementInk(int startPosX, int startPosY, int endPosX, int endPosY) {

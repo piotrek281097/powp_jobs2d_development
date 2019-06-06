@@ -2,6 +2,9 @@ package edu.kis.powp.jobs2d;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -114,10 +117,25 @@ public class TestJobs2dApp {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			String resourcesFromFile = new String(Files.readAllBytes(Paths.get("./resourcesFile.txt")), StandardCharsets.UTF_8);
+			ResourceClassSingleton.getInstance().setInk(Double.parseDouble(resourcesFromFile.split(" ")[0]));
+			ResourceClassSingleton.getInstance().setUsage(Double.parseDouble(resourcesFromFile.split(" ")[1]));
+		} catch (Exception e) {
+			ResourceClassSingleton.getInstance().setInk(10000);
+			ResourceClassSingleton.getInstance().setUsage(10000);
+		}
 
-		//TODO add loading resources from file and set them
-		ResourceClassSingleton.getInstance().setInk(15000);
-		ResourceClassSingleton.getInstance().setUsage(5000);
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			public void run() {
+				try {
+					String resources = String.valueOf(ResourceClassSingleton.getInstance().getInk()) + " " + String.valueOf(ResourceClassSingleton.getInstance().getUsage());
+					Files.write(Paths.get("./resourcesFile.txt"), resources.getBytes());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
