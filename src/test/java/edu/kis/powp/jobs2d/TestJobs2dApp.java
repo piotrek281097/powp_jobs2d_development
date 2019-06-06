@@ -21,6 +21,7 @@ import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.resources.ChangeUsageObserver;
 import edu.kis.powp.jobs2d.resources.ResourceClassSingleton;
 
 public class TestJobs2dApp {
@@ -80,6 +81,10 @@ public class TestJobs2dApp {
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
 		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
+
+        ChangeUsageObserver changeUsageObserver = new ChangeUsageObserver();
+        changeUsageObserver.setLogger(logger);
+        ResourceClassSingleton.getInstance().getChangePublisher().addSubscriber(changeUsageObserver);
 	}
 
 	/**
@@ -99,10 +104,6 @@ public class TestJobs2dApp {
 		application.addComponentMenuElement(Logger.class, "Severe level",
 				(ActionEvent e) -> logger.setLevel(Level.SEVERE));
 		application.addComponentMenuElement(Logger.class, "OFF logging", (ActionEvent e) -> logger.setLevel(Level.OFF));
-	}
-
-	public Logger getLogger() {
-		return logger;
 	}
 
 	private static void notifyAboutResources() {

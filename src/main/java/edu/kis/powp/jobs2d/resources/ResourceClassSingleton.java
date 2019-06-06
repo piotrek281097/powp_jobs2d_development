@@ -12,6 +12,7 @@ public class ResourceClassSingleton {
         return ourInstance;
     }
 
+    private Publisher warningPublisher = new Publisher();
     private Publisher changePublisher = new Publisher();
 
     private double ink = 10000;
@@ -23,13 +24,13 @@ public class ResourceClassSingleton {
         isWindowPopedUp = false;
     }
 
-    public void changeResourcesStatus() {
-        isInk = true;
-        isUsage = true;
-    }
 
     private ResourceClassSingleton() {
-        changePublisher.addSubscriber(new WarningUsageObserver());
+        warningPublisher.addSubscriber(new WarningUsageObserver());
+    }
+
+    public Publisher getChangePublisher() {
+        return changePublisher;
     }
 
     public boolean decrementInk(int startPosX, int startPosY, int endPosX, int endPosY) {
@@ -40,24 +41,23 @@ public class ResourceClassSingleton {
         if (isInk && isUsage) {
             if (ink - distance < 0) {
                 isInk = false;
-                System.out.println("Nie mozna rysowac brak ink");
-                changePublisher.notifyObservers();
+                warningPublisher.notifyObservers();
                 isWindowPopedUp = true;
                 return false;
             }
         } else if(!isWindowPopedUp) {
             isWindowPopedUp = true;
-            changePublisher.notifyObservers();
+            warningPublisher.notifyObservers();
             return false;
         } else {
             return false;
         }
         this.ink -= distance;
+        changePublisher.notifyObservers();
         return true;
     }
 
-    public boolean decrementUsage(int startPosX, int startPosY, int endPosX, int
-            endPosY) {
+    public boolean decrementUsage(int startPosX, int startPosY, int endPosX, int endPosY) {
         Point startingPoint = new Point(startPosX, startPosY);
         Point endingPoint = new Point(endPosX, endPosY);
 
@@ -66,14 +66,13 @@ public class ResourceClassSingleton {
         if (isInk && isUsage) {
             if (usage - distance < 0) {
                 isUsage = false;
-                System.out.println("Nie mozna rysowac brak uasge");
-                changePublisher.notifyObservers();
+                warningPublisher.notifyObservers();
                 isWindowPopedUp = true;
                 return false;
             }
         } else if(!isWindowPopedUp) {
             isWindowPopedUp = true;
-            changePublisher.notifyObservers();
+            warningPublisher.notifyObservers();
             return false;
         } else {
             return false;
