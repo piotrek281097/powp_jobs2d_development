@@ -26,7 +26,7 @@ import javax.swing.*;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	private static CustomizableLine ourBeautifulLine = new CustomizableLine();
+	private static CustomizableLine customizableLine = new CustomizableLine();
 
 	/**
 	 * Setup test concerning preset figures in context.
@@ -73,8 +73,8 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Special line Simulator", driver);
 		DriverFeature.updateDriverInfo();
 
-		driver = new LineDriverAdapter(drawerController, ourBeautifulLine, "customizable");
-		DriverFeature.addDriver("Beautiful Customizable Line", driver);
+		driver = new LineDriverAdapter(drawerController, customizableLine, "customizable");
+		DriverFeature.addDriver("Customizable Line", driver);
 		DriverFeature.updateDriverInfo();
 	}
 
@@ -90,27 +90,29 @@ public class TestJobs2dApp {
 		frame.setSize(dimension);
 		frame.setResizable(false);
 
-		Map<String, Color> ourPrefferableColors = new HashMap<>();
-		ourPrefferableColors.put("Magenta", Color.MAGENTA);
-		ourPrefferableColors.put("Orange", Color.ORANGE);
-		ourPrefferableColors.put("Pink", Color.PINK);
-		ourPrefferableColors.put("Blue", Color.BLUE);
+		Map<String, Color> colorMap = new HashMap<>();
+		String[] colorsNames = {"Black", "Magenta", "Orange", "Pink", "Blue", "Yellow", "Red"};
+		Color[] colors = {Color.BLACK, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.BLUE, Color.YELLOW, Color.RED};
 
-		JComboBox colorList = new JComboBox(ourPrefferableColors.keySet().stream().toArray());
-		colorList.addItemListener(itemEvent -> ourBeautifulLine.setColor(ourPrefferableColors.get(itemEvent.getItem())));
+		for(int i = 0; i < colors.length; i++){
+			colorMap.put(colorsNames[i], colors[i]);
+		}
+
+		JComboBox colorList = new JComboBox(colorMap.keySet().stream().toArray());
+		colorList.addItemListener(itemEvent -> customizableLine.setColor(colorMap.get(itemEvent.getItem())));
 
 		JCheckBox dottedCheckBox = new JCheckBox();
 		dottedCheckBox.setText("Dotted");
-		dottedCheckBox.addActionListener(e -> ourBeautifulLine.setDotted(dottedCheckBox.isEnabled()));
+		dottedCheckBox.addActionListener(e -> customizableLine.setDotted(dottedCheckBox.isEnabled()));
 
-		ourBeautifulLine.setColor(ourPrefferableColors.get(colorList.getSelectedItem()));
+		customizableLine.setColor(colorMap.get(colorList.getSelectedItem()));
 
-		JSlider thicknessSlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 1);
+		JSlider thicknessSlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 5);
 		thicknessSlider.setPaintLabels(true);
 		thicknessSlider.setPaintTicks(true);
 		thicknessSlider.setMajorTickSpacing(1);
 
-		thicknessSlider.addChangeListener(e -> ourBeautifulLine.setThickness(thicknessSlider.getValue()));
+		thicknessSlider.addChangeListener(e -> customizableLine.setThickness(thicknessSlider.getValue()));
 
 		JLabel label = new JLabel();
 		label.setText("Thickness");
